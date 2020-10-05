@@ -1,0 +1,4 @@
+[{"class": "Trial", "args": {"account": "Vitali", "mark1": 10, "mark2": 22}},
+{"class": "ExtraTrial", "args": {"account": "Dimon", "mark1": 10, "mark2": 11}},
+{"class": "ExtraTrial", "args": {"account": "Egor", "mark1": 50, "mark2": 60}},
+{"class": "ExtraTrial", "args": {"account": "Dimon", "mark1": 10, "mark2": 11}}]
