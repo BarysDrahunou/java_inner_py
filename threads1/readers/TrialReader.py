@@ -1,5 +1,4 @@
 from utils.TrialConstants import FINAL_TRIAL
-from trialsfactory import TrialsFactory
 
 
 class TrialReader:
@@ -9,13 +8,10 @@ class TrialReader:
         self.trial_dao = trial_dao
 
     def run(self):
-        try:
-            while True:
-                trial_args = self.trial_dao.next_trial()
-                if trial_args is not None:
-                    trial = TrialsFactory.get_trial(trial_args)
-                    if trial is not None:
-                        self.blocking_queue.put(trial)
-        except StopIteration:
-            self.blocking_queue.put(FINAL_TRIAL)
-            self.trial_dao.close()
+        trial = self.trial_dao.next_trial()
+        while trial != FINAL_TRIAL:
+            if trial is not None:
+                self.blocking_queue.put(trial)
+            trial = self.trial_dao.next_trial()
+        self.blocking_queue.put(FINAL_TRIAL)
+        self.trial_dao.close()

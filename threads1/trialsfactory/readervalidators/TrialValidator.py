@@ -1,3 +1,5 @@
+from utils.ExceptionHandling import INVALID_FIELD_MESSAGE, \
+    FIELD_IS_NOT_A_NUMBER
 from utils.TrialConstants import MIN_ACCEPTABLE_MARK, MAX_ACCEPTABLE_MARK
 
 
@@ -23,11 +25,19 @@ class TrialValidator:
         if field.isalpha():
             return field
         else:
-            raise ValueError
+            raise ValueError(INVALID_FIELD_MESSAGE + field)
 
     @staticmethod
     def _validate_integer_field(field):
-        if MIN_ACCEPTABLE_MARK <= int(field) <= MAX_ACCEPTABLE_MARK:
-            return int(field)
+        value = TrialValidator.__get_integer_value_of_field(field)
+        if MIN_ACCEPTABLE_MARK <= value <= MAX_ACCEPTABLE_MARK:
+            return value
         else:
-            raise ValueError
+            raise ValueError(INVALID_FIELD_MESSAGE + field)
+
+    @staticmethod
+    def __get_integer_value_of_field(field):
+        try:
+            return int(field)
+        except ValueError:
+            raise ValueError(FIELD_IS_NOT_A_NUMBER + field)

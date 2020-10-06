@@ -27,6 +27,7 @@ WRITER_IN_CONFIG = "writer"
 QUEUE_SIZE = 1
 READER_CONSTANT = 0
 CONFIG_CONSTANT = 1
+ZERO = 0
 
 
 def get_config(configuration_file_name):

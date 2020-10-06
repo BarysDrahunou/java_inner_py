@@ -11,6 +11,7 @@ ACCOUNT_PARAM = 1
 MARK1_PARAM = 2
 MARK2_PARAM = 3
 MARK3_PARAM = 4
+SQL_PARAMS_NUMBER = 3
 DATABASE_PARAM = 0
 TABLE_PARAM = 1
 SQL_GROUP = "SQL data"
@@ -30,17 +31,17 @@ SQL_FOR_TRIAL_INSERTION = "INSERT INTO {}.{} " \
 SQL_FOR_SELECTION = "SELECT CLASS, ACCOUNT, MARK1, MARK2, MARK3 FROM {} LIMIT 1 OFFSET %s"
 
 
-def is_database_exist(database_name, configuration_file_name):
+def is_database_exist(configuration_file_name, database_name):
     try:
-        get_connection(database_name, configuration_file_name)
+        get_connection(configuration_file_name, database_name)
         return True
     except ProgrammingError:
         return False
 
 
-def is_table_exist(database_name, table_name):
+def is_table_exist(configuration_file_name, database_name, table_name):
     try:
-        connection = get_connection(database_name, table_name)
+        connection = get_connection(configuration_file_name, database_name)
         statement = SQL_FOR_CHECK_IS_TABLE_EXISTS.format(table_name)
         cursor = connection.cursor()
         cursor.execute(statement)
@@ -50,11 +51,15 @@ def is_table_exist(database_name, table_name):
         return False
 
 
-def get_connection(database_name, configuration_file_name):
+def get_connection(configuration_file_name, database_name=None):
     config = get_config(configuration_file_name)
     user = config.get(SQL_GROUP, USER)
     password = config.get(SQL_GROUP, PASSWORD)
     host = config.get(SQL_GROUP, HOST)
-    return mysql.connector.connect(user=user, password=password,
-                                   host=host,
-                                   database=database_name)
+    if database_name is not None:
+        return mysql.connector.connect(user=user, password=password,
+                                       host=host,
+                                       database=database_name)
+    else:
+        return mysql.connector.connect(user=user, password=password,
+                                       host=host)
