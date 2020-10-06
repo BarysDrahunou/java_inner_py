@@ -24,7 +24,6 @@ CONFIG_FILE_NAME = "configuration.ini"
 READER_WRITER_GROUP = "Readers and Writers"
 READER_IN_CONFIG = "reader"
 WRITER_IN_CONFIG = "writer"
-QUEUE_SIZE = 1
 READER_CONSTANT = 0
 CONFIG_CONSTANT = 1
 ZERO = 0
