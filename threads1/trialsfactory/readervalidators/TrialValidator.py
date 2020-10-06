@@ -25,7 +25,7 @@ class TrialValidator:
         if field.isalpha():
             return field
         else:
-            raise ValueError(INVALID_FIELD_MESSAGE + field)
+            raise ValueError(INVALID_FIELD_MESSAGE + str(field))
 
     @staticmethod
     def _validate_integer_field(field):
@@ -33,11 +33,11 @@ class TrialValidator:
         if MIN_ACCEPTABLE_MARK <= value <= MAX_ACCEPTABLE_MARK:
             return value
         else:
-            raise ValueError(INVALID_FIELD_MESSAGE + field)
+            raise ValueError(INVALID_FIELD_MESSAGE + str(field))
 
     @staticmethod
     def __get_integer_value_of_field(field):
         try:
             return int(field)
         except ValueError:
-            raise ValueError(FIELD_IS_NOT_A_NUMBER + field)
+            raise ValueError(FIELD_IS_NOT_A_NUMBER + str(field))
