@@ -14,9 +14,9 @@ blocking_queue = queue.Queue(QUEUE_SIZE)
 try:
     all_trial_dao = TrialReadersFactory().get_trial_dao(CONFIG_FILE_NAME,
                                                         READER_WRITER_GROUP, READER_IN_CONFIG)
-    trial_consumer = TrialWriterFactory.get_consumer(CONFIG_FILE_NAME,
-                                                     READER_WRITER_GROUP, WRITER_IN_CONFIG)
-    with ThreadPoolExecutor(max_workers=len(all_trial_dao)) as e:
+    with TrialWriterFactory.get_consumer(CONFIG_FILE_NAME, READER_WRITER_GROUP,
+                                         WRITER_IN_CONFIG) as trial_consumer, \
+            ThreadPoolExecutor(max_workers=len(all_trial_dao)) as e:
         for trial_dao in all_trial_dao:
             trial_reader = TrialReader(blocking_queue, trial_dao)
             e.submit(trial_reader.run)

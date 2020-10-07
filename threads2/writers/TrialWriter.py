@@ -15,4 +15,3 @@ class TrialWriter:
                 self.readers_amount -= 1
             else:
                 self.consumer.write_trial(trial)
-        self.consumer.close()

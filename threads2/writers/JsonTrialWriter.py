@@ -25,6 +25,9 @@ class JsonTrialWriter:
         self.writer.write(BEGIN_ARRAY)
         self.first = True
 
+    def __enter__(self):
+        return self
+
     def write_trial(self, trial):
         json_trial = JsonTrialWriter.__TRIAL_JSON_SERIALIZERS_DICT \
             .get(camel_to_snake(trial.__class__.__name__)) \
@@ -36,6 +39,6 @@ class JsonTrialWriter:
             self.writer.write(
                 COMMA + END_LINE + json_trial)
 
-    def close(self):
+    def __exit__(self, exc_type, exc_val, exc_tb):
         self.writer.write(END_ARRAY)
         self.writer.close()

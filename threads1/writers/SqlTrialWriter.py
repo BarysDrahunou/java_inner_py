@@ -42,6 +42,9 @@ class SqlTrialWriter:
         except ProgrammingError:
             raise ValueError(SQL_EXCEPTION.format(database_name, table_name))
 
+    def __enter__(self):
+        return self
+
     def write_trial(self, trial):
         sql = SQL_FOR_TRIAL_INSERTION.format(self.database_name, self.table_name)
         values = SqlTrialWriter.__TRIAL_SQL_SERIALIZERS_DICT \
@@ -50,5 +53,5 @@ class SqlTrialWriter:
         self.cursor.execute(sql, values)
         self.connection.commit()
 
-    def close(self):
+    def __exit__(self, exc_type, exc_val, exc_tb):
         self.connection.close()

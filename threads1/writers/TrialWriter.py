@@ -12,4 +12,3 @@ class TrialWriter:
         while trial != FINAL_TRIAL:
             self.consumer.write_trial(trial)
             trial = self.buffer.take_trial()
-        self.consumer.close()

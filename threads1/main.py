@@ -15,11 +15,12 @@ buffer = TrialBuffer()
 try:
     trial_dao = TrialReaderFactory.get_trial_dao(CONFIG_FILE_NAME,
                                                  READER_WRITER_GROUP, READER_IN_CONFIG)
-    trial_consumer = TrialWriterFactory.get_consumer(CONFIG_FILE_NAME,
-                                                     READER_WRITER_GROUP, WRITER_IN_CONFIG)
-    trial_reader = TrialReader(buffer, trial_dao)
-    trial_writer = TrialWriter(buffer, trial_consumer)
-    threading.Thread(target=trial_reader.run).start()
-    trial_writer.go()
+    with TrialWriterFactory.get_consumer(CONFIG_FILE_NAME,
+                                         READER_WRITER_GROUP, WRITER_IN_CONFIG) \
+            as trial_consumer:
+        trial_reader = TrialReader(buffer, trial_dao)
+        trial_writer = TrialWriter(buffer, trial_consumer)
+        threading.Thread(target=trial_reader.run).start()
+        trial_writer.go()
 except (FileNotFoundError, ValueError, NoOptionError) as e:
     logger.error(e)

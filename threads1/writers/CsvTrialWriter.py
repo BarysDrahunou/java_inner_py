@@ -22,10 +22,13 @@ class CsvTrialWriter:
             raise ValueError(WRITER_ALREADY_EXISTS + writer)
         self.writer = open(PATH_TO_FILE + writer, mode=WRITE_MODE)
 
+    def __enter__(self):
+        return self
+
     def write_trial(self, trial):
         self.writer.write(CsvTrialWriter.__TRIAL_CSV_SERIALIZERS_DICT
                           .get(camel_to_snake(trial.__class__.__name__))
                           .serialize(trial) + END_LINE)
 
-    def close(self):
+    def __exit__(self, exc_type, exc_val, exc_tb):
         self.writer.close()
