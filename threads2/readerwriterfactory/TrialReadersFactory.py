@@ -1,6 +1,7 @@
 import os
 
-from utils.ExceptionHandling import EMPTY_READER, get_logger_
+from utils.ExceptionHandling import EMPTY_READER, get_logger_, \
+    NO_VALID_READERS
 from utils.ReaderWriterConstants import get_config, \
     CSV, JSON, SQL, EXTENSION_PARAMETER, CSV_SEPARATOR
 from readers.CsvTrialReader import CsvTrialReader
@@ -14,10 +15,8 @@ class TrialReadersFactory:
                                SQL: SqlTrialReader}
     logger = get_logger_()
 
-    def __init__(self):
+    def __init__(self, configuration_file_name, group, readers_name_in_properties):
         self.trial_dao_list = list()
-
-    def get_trial_dao(self, configuration_file_name, group, readers_name_in_properties):
         config = get_config(configuration_file_name)
         reader = config.get(group, readers_name_in_properties)
         readers = reader.split(CSV_SEPARATOR)
@@ -31,4 +30,15 @@ class TrialReadersFactory:
                 TrialReadersFactory.logger.error(EMPTY_READER)
             except (FileNotFoundError, ValueError) as e:
                 TrialReadersFactory.logger.error(e)
+        if len(self.trial_dao_list) == 0:
+            raise ValueError(NO_VALID_READERS)
+
+    def __enter__(self):
+        return self
+
+    def get_trial_dao(self):
         return self.trial_dao_list
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        for reader in self.trial_dao_list:
+            reader.close()

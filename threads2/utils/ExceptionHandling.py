@@ -16,6 +16,7 @@ EMPTY_READER = "Reader is empty or not sql, json or csv format"
 EMPTY_WRITER = "Writer is empty or not sql, json or csv format"
 SQL_EXCEPTION = "Some problems with database {}.{}"
 WRITER_ALREADY_EXISTS = "Writer already exists: "
+NO_VALID_READERS = "No valid readers"
 
 
 def get_logger_():

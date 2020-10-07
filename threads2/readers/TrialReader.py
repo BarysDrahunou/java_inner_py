@@ -14,4 +14,3 @@ class TrialReader:
                 self.blocking_queue.put(trial)
             trial = self.trial_dao.next_trial()
         self.blocking_queue.put(trial)
-        self.trial_dao.close()
