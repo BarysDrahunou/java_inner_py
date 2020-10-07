@@ -22,6 +22,9 @@ class JsonTrialReader:
                 JsonTrialReader.logger.error(EMPTY_JSON)
                 self.counter = ZERO
 
+    def __enter__(self):
+        return self
+
     def next_trial(self):
         if self.counter > ZERO:
             json_object = self.json[len(self.json) - self.counter]
@@ -42,5 +45,5 @@ class JsonTrialReader:
         else:
             return FINAL_TRIAL
 
-    def close(self):
+    def __exit__(self, exc_type, exc_val, exc_tb):
         pass

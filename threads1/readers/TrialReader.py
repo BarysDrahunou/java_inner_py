@@ -14,4 +14,3 @@ class TrialReader:
                 self.buffer.put_trial(trial)
             trial = self.trial_dao.next_trial()
         self.buffer.put_trial(trial)
-        self.trial_dao.close()

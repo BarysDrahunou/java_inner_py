@@ -12,6 +12,9 @@ class CsvTrialReader:
         reader = args[READER_CONSTANT]
         self.file_reader = open(PATH_TO_FILE + reader, mode=READ_MODE)
 
+    def __enter__(self):
+        return self
+
     def next_trial(self):
         trial = self.file_reader.readline().strip()
         if trial:
@@ -27,5 +30,5 @@ class CsvTrialReader:
         else:
             return FINAL_TRIAL
 
-    def close(self):
+    def __exit__(self, exc_type, exc_val, exc_tb):
         self.file_reader.close()

@@ -29,6 +29,9 @@ class SqlTrialReader:
         else:
             raise ValueError(TABLE_DOES_NOT_EXIST.format(database_name, table_name))
 
+    def __enter__(self):
+        return self
+
     def next_trial(self):
         self.cursor.execute(self.SQL, str(self.counter))
         trial = self.cursor.fetchall()
@@ -42,5 +45,5 @@ class SqlTrialReader:
         else:
             return FINAL_TRIAL
 
-    def close(self):
+    def __exit__(self, exc_type, exc_val, exc_tb):
         self.connection.close()
