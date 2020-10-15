@@ -1,6 +1,7 @@
 import configparser
 
 PATH_TO_FILE = "resources/"
+PATH_TO_LOGS = "logs/"
 WRITE_MODE = "w"
 READ_MODE = "r"
 END_LINE = "\n"

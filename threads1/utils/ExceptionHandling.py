@@ -1,4 +1,7 @@
 import logging.config
+import os
+
+from utils.ReaderWriterConstants import PATH_TO_LOGS
 
 PATH_TO_CONFIG_FILE = "resources/logging.conf"
 FILE_LOGGER = "fileLogger"
@@ -19,5 +22,7 @@ WRITER_ALREADY_EXISTS = "Writer already exists: "
 
 
 def get_logger_():
+    if not os.path.exists(PATH_TO_LOGS):
+        os.makedirs(PATH_TO_LOGS)
     logging.config.fileConfig(fname=PATH_TO_CONFIG_FILE)
     return logging.getLogger(FILE_LOGGER)
